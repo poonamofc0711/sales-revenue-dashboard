@@ -1,0 +1,17 @@
+Throughput = SUM(Production_Log[Units_Produced])
+
+Defect Rate = DIVIDE(SUM(Production_Log[Defects]), SUM(Production_Log[Units_Produced])) * 100
+
+Avg Cycle Time = AVERAGE(Production_Log[Cycle_Time])
+
+Efficiency = DIVIDE(SUM(Production_Log[Units_Produced]), SUM(Production_Log[Expected_Output])) * 100
+
+Total Downtime = SUM(Production_Log[Downtime])
+
+OEE = 
+VAR PlannedTime = 480
+VAR RunTime = PlannedTime - [Total Downtime]
+VAR Availability = DIVIDE(RunTime, PlannedTime)
+VAR Performance = DIVIDE(SUM(Production_Log[Units_Produced]) * AVERAGE(Production_Log[Ideal_Cycle_Time]), RunTime)
+VAR Quality = DIVIDE(SUM(Production_Log[Units_Produced]) - SUM(Production_Log[Defects]), SUM(Production_Log[Units_Produced]))
+RETURN Availability * Performance * Quality * 100
